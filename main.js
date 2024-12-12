@@ -6,7 +6,8 @@ let num = 0;
 const trueButton = document.getElementById("trueButton");
 const falseButton = document.getElementById("falseButton");
 let correctAnswer; 
-
+let quizAPIData;
+let userInput;
 // fucntion that goes the API logic
 
 async function getQuestions() {
@@ -21,34 +22,40 @@ async function getQuestions() {
     }
       }
     );
-    function nextQuestion(){
-
-
-    }
+   
     //creates a function contains the data from the API such questions and answers 
-    const quizAPIData = await quizAPI.json();
+    quizAPIData = await quizAPI.json();
     console.log("all data", quizAPIData);
+    // add the enxt question function , so that question can be assigned 
+    nextQuestion()
+    return quizAPIData;
 
-    // get the correct answer from the API and asaign to a variable
-     correctAnswer = quizAPIData.results[num].correct_answer;
-
-    // display one line of question
-  
-    let question = quizAPIData.results[num].question;
-    console.log("question", question);
-    //creates variable to decode the incomeing HTML
-    const decodedQuestion = decodeHTML(question)
-    //Sets the area the question will be show
-    const questionElement = document.getElementById("Question")
-    //shows the deocded question into a readable format
-    questionElement.textContent = decodedQuestion
-    //changeQuestion()
- 
   } catch 
   {
     console.error("ERROR found");
   }
 }
+
+function nextQuestion(){   // get the correct answer from the API and asaign to a variable
+    correctAnswer = quizAPIData.results[num].correct_answer;
+    console.log(correctAnswer)
+
+   // display one line of question
+ 
+   let question = quizAPIData.results[num].question;
+   console.log("question", question);
+   //creates variable to decode the incomeing HTML
+   const decodedQuestion = decodeHTML(question)
+   //Sets the area the question will be show
+   const questionElement = document.getElementById("Question")
+   //shows the deocded question into a readable format
+   questionElement.textContent = decodedQuestion
+   //changeQuestion()
+   
+
+}
+
+
 // decodes the HTML into inner HTML so that the text becomes readable and contain special symbals
 function decodeHTML(html) {
     let txt = document.createElement("textarea");
@@ -60,7 +67,7 @@ function changeQuestion(){
     num = num + 1
   console.log(num)
 
-  getQuestions()
+  nextQuestion()
     
 }
 
@@ -68,7 +75,7 @@ function changeQuestion(){
 function compareBool(){
     let feedbackResponse = document.getElementById("feedbackResponse")
 
-    if (correctAnswer === "True" || correctAnswer === "False"){
+    if (correctAnswer === "True" ){
         console.log("well done")
         // update to inform player if they have chosen the correct answer to the question
         
@@ -81,11 +88,14 @@ function compareBool(){
         feedbackResponse.textContent = `was false the correct answer is ${correctAnswer}`
     }
 }
-
+// create function that will declare if the player clicked true or false by iinputing the data that is recieved from the player clicks true or false that can be used for the compareBool function
+function userAnswer(){
+   
+}
 renderAPI.addEventListener("click", getQuestions);
 
 nextButton.addEventListener("click", changeQuestion);
-trueButton.addEventListener("click", compareBool)
+trueButton.addEventListener("click", userAnswer)
 falseButton.addEventListener("click", compareBool)
 
 
