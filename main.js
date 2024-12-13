@@ -79,7 +79,7 @@ function decodeHTML(html) {
 }
 
 function changeQuestion() {
-  num = num + 9;
+  num = num + 1;
   console.log(num);
   // create variable that will track the question that the player is on remebering to +1 as the index starts from 0
 
